@@ -62,17 +62,17 @@ Your room document in your `rooms` collection should resemble the following:
 
 ## Stories
 
-### Users
+### Users-//when writting end point also write user model
 
 - [ ] Create user endpoint
 - [ ] Login user endpoint
 
-### Rooms
+### Rooms-//when writting end point also write rooms model
 
 - [ ] Create endpoint
 - [ ] Display all rooms endpoint
 
-### Messages
+### Messages -//when writting end point also write message model
 
 - [ ] Display all messages within a room endpoint
 - [ ] Create a message within a room endpoint
@@ -85,13 +85,13 @@ As this is a group project, it would be much easier to work on it if everyone ha
 
 - [ ] Setup MongoDB Atlas cluster and utilize it to CRUD your database for this project. You must utilize .dotenv in this project to hide your username, password, and your connection string away from prying eyes of other GitHub users.
 
-- [ ] Add `update` and `delete` endpoints to your `rooms` controller
+- [ ] Add `update` and `delete` endpoints to your `rooms` controller //check chris example of this
 - [ ] Add `update` and `delete` endpoints to your `users` controller
 
 > HINT
 > Allowing updates on users means that collection associations need to be based on things user **CANNOT** change.
 
-- [ ] Add isAdmin to your user collection and build middleware that only allows admins to update and delete rooms and messages.
+- [ ] Add isAdmin to your user collection and build middleware that only allows admins to update and delete rooms and messages.// this is a boolean, !check for token and true boolean
 
 # React Chat Front End
 

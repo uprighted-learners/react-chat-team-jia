@@ -15,6 +15,9 @@ Clone the following repository to your projects folder, then `cd` into `server` 
 Your message document in your `messages` collection should resemble the following:
 
 ```json
+folder called models - schemas go in, meesage js, user js, room js
+controllers folder-meesage js, user js, room js
+routes folder
 
 {
     "when": "2018-07-15T20:00:47.696Z",

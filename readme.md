@@ -18,7 +18,7 @@ Your message document in your `messages` collection should resemble the followin
 
 {
     "when": "2018-07-15T20:00:47.696Z",
-    "user": "John",
+    "user": "John", 
     "room": "Main",
     "body": "I really want to attend NASA's DEVELOP program this summer!"
 }

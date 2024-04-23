@@ -7,11 +7,11 @@ const cors = require('cors');
 
 // create express app
 const app = express();
-
+const roomRoutes = require("../routes/roomRoutes");
 // implement middleware
 app.use(express.json());
 app.use(cors());
-
+app.use("/rooms", roomRoutes)//connector between app and room routes(localhost: PORT/rooms/<endPointName>)
 // declare a PORT
 const PORT = process.env.PORT || 8080;
 

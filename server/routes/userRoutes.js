@@ -1,14 +1,14 @@
 //THIS IS WHERE ENDPOINTS GO
 //!SHOULD LOOK LIKE THIS
 
-/*const express = require('express');
+const express = require("express");
 const router = express.Router();
-const usersController = require('../controllers/usersControllers');
+const usersRoutes = require("../routes/userRoutes");
 
 // POST - /api/register - register a new user
-router.post('/register', usersController.registerNewUser);
+router.post("/register", userRoutes.addedUsers);
 
 // POST - /api/login - login a user
-router.post('/login', usersController.loginUser);
+router.post("/login", usersRoutes.loginUser);
 
-module.exports = router;*/
+module.exports = router;

@@ -3,12 +3,15 @@
 
 const express = require("express");
 const router = express.Router();
-const messageRoutes = require("../routes/messageRoutes");
+const messageController = require("../controllers/messageController");
 
 // POST - /api/register - register a new user
-router.post("/register", messageRoutes.registerNewUser);
+router.post("/register", messageController.registerNewUser);
 
 // POST - /api/login - login a user
-router.post("/login", messageRoutes.loginUser);
+router.post("/login", messageController.loginUser);
+
+//Update /update/:Id/ - update a Message
+router.put("/update", messageController.updateMessage);
 
 module.exports = router;

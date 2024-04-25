@@ -1,23 +1,19 @@
 // !THIS IS WHAT OUR SCHEMA SHOULD LOOK LIKE, BUT WE HAVE TO CHANGE IT TO CONST MESSAGESCHEMA (CAMELCASE) ETC
 
-//const mongoose = require('mongoose');
+// models/Message.js
+const mongoose = require("mongoose");
 
-// User Schema
-// const userSchema = new mongoose.Schema({
-//   username: {
-//       type: String,
-//       required: true,
-//       unique: true
-//   },
-//   password: {
-//       type: String,
-//       required: true
-//   },
-//   timestamp: {
-//       type: Date,
-//       default: Date.now
-//   }
-// });
+const messageSchema = new mongoose.Schema({
+  room: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Room",
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  // Add other message properties as needed
+});
 
-// // Create a model for a User
-// module.exports = mongoose.model('User', userSchema);//
+module.exports = mongoose.model("Message", messageSchema);

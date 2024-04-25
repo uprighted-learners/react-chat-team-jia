@@ -5,11 +5,12 @@ const express = require("express");
 const router = express.Router();
 // should be in app.js
 
- const roomRoutes = require("../routes/roomRoutes")
+ const roomControllers = require("../controllers/roomControllers")
 // POST - /api/register - register a new user
-// router.post("/register", roomRoutes.addedUsers);
+
+// router.post("/register", roomControllers.addedUsers);
 
 // // POST - /api/login - login a user
-// router.post("/login", roomRoutes.loginUser);
+// router.post("/login", roomControllers.loginUser);
 
 module.exports = router;

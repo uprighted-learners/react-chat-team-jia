@@ -1,3 +1,4 @@
+const User = require('../models/userModel')//THIS DOCUMENT IS THE ONLY DOCUMENT THAT CREATES A USER OR HASHES A PASSWORD
 //this is where handler functions go
 //!should look something like this:
 /*
@@ -22,7 +23,7 @@ exports.registerNewUser = async (req, res) => {
 }
 
 // POST - /api/login - login a user
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res) => { 
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
         console.log("User not found"); // Logging for debug
@@ -41,3 +42,7 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: "Server error during login" });
     }
 }*/
+//PUT /api/update/:username - update a user
+exports.updateUser = async function (req, res) {
+ console.log("this doesnt do anything")   //make this update functionality
+}

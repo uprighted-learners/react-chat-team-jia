@@ -10,6 +10,6 @@ const User = new mongoose.Schema(
      lastName: {type: String, required: true},
      password: {type: String, required: true},
      timestamp: {type: Date, default: Date.now},
-     isAdmin: {type: Boolean, default: false},
+     isAdmin: {type: Boolean, default: false}, 
     })
-    module.exports = mongoose.model('user', User )
+    module.exports = mongoose.model('user', User )//data  has a dresscode

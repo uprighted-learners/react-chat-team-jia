@@ -1,23 +1,15 @@
-// !THIS IS WHAT OUR SCHEMA SHOULD LOOK LIKE, BUT WE HAVE TO CHANGE IT TO CONST USERSCHEMA (CAMELCASE) ETC
+const { mongoose } = require('../db.js')
 
-//const mongoose = require('mongoose');
+const DB_URI = process.env.MONGO_URI
 
-// User Schema
-// const userSchema = new mongoose.Schema({
-//   username: {
-//       type: String,
-//       required: true,
-//       unique: true
-//   },
-//   password: {
-//       type: String,
-//       required: true
-//   },
-//   timestamp: {
-//       type: Date,
-//       default: Date.now
-//   }
-// });
+const Room = require('./roomModel.js')
 
-// // Create a model for a User
-// module.exports = mongoose.model('User', userSchema);//
+const User = new mongoose.Schema(
+    {
+     firstName: {type: String, required: true},
+     lastName: {type: String, required: true},
+     password: {type: String, required: true},
+     timestamp: {type: Date, default: Date.now},
+     isAdmin: {type: Boolean, default: false}, 
+    })
+    module.exports = mongoose.model('user', User )//data  has a dresscode

@@ -1,40 +1,27 @@
-//server will be spun up
-//Should look like this
-/*
-// import dependencies
-const express = require('express');
-const cors = require('cors');
+const express = require('express'); // Importing the express module
+ const cors = require('cors');
+ require('dotenv').config()
+ const { connect } = require('./db.js')
 
-// create express app
+// Middleware setup
 const app = express();
-
-// implement middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors()); // Uncomment this line if you want to use CORS middleware
+app.use(express.static("public"));
+// Importing routes
+const roomRoutes = require("./routes/roomRoutes");
+const userRoutes = require("./routes/userRoutes");
+const messageRoutes = require("./routes/messageRoutes");
+app.use("/rooms", roomRoutes);
+app.use("/users", userRoutes);
+app.use("/messages", messageRoutes);
 
-// declare a PORT
 const PORT = process.env.PORT || 8080;
 
-// connect to MongoDB
-require("./config/database");
-
-// serve public directory
-app.use(express.static("public"));
-
-// GET - /api/health - check if API is alive or not
-app.get("/api/health", async (req, res) => {
-    try {
-        res.send("Server is running");
-    } catch (error) {
-        console.log(error);
-    }
+app.listen(PORT, () => {
+connect()
+    console.log(`Server is running on port ${PORT}`);
 });
 
-// import routes
-app.use('/api', require('./routes/usersRoutes')); // users routes
-app.use('/api', require('./routes/blogPostsRoutes')); // blog posts routes
 
-// spin up the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});*/
+ 

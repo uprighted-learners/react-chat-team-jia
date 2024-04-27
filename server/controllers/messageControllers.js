@@ -1,44 +1,72 @@
-//this is where handler functions go
-//this is where handler functions go
-//!should look something like this:
-/*
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const Message = require('../models/messageModel');
 
-// POST - /api/register - register a new user
-exports.registerNewUser = async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = new User({
-            username: req.body.username,
-            password: hashedPassword
-        });
-        const newUser = await user.save();
-        res.status(201).json(newUser);
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: error.message });
-    }
-}
+// make four crud function to handle messages
 
-// POST - /api/login - login a user
-exports.loginUser = async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) {
-        console.log("User not found"); // Logging for debug
-        return res.status(401).json({ message: "Invalid credentials" });
+/* create a message` comment is providing a descriptive label for the following function
+`createMessage`. This function is responsible for creating a new message by interacting with the
+database and returning the created message in the response. */
+
+// post/ message/create/:room == creates a message in a room
+exports.createMessage = async (req, res) => {
+  //I added this line to get the room from the request parameters, check with donte to see if it is good?
+  const { room } = req.params;
+  try {
+    const message = new Message({
+      room: req.params.room,
+      body: req.body.body,
+      user: req.body.user,
+      date: Date.now(),
+      // Add other message properties as needed
+    });
+    await message.save();
+    res.status(201).json(message);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// get == /message/get/:room == gets all messages
+exports.messages = async (req, res) => {
+  try {
+    const messages = await Message.find({ room: req.params.room });
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//put == /message/update/:room == updates a message
+exports.updateMessage = async (req, res) => {
+  const { room } = req.room;
+  try {
+    const message = await new message.findOneAndUpdate({
+      room: req.params.room,
+      body: req.body.body,
+      user: req.body.user,
+      date: Date.now(),
+    });
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
     }
-    try {
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            const accessToken = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.status(200).json({ message: "Login successful", token: accessToken });
-        } else {
-            console.log("Password does not match"); // Logging for debug
-            res.status(401).json({ message: "Invalid credentials" });
-        }
-    } catch (error) {
-        console.error("Error during login", error); // More detailed error logging
-        res.status(500).json({ message: "Server error during login" });
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//Delete == /message/delete/:room == deletes a message
+exports.deleteMessage = async (req, res) => {
+  try {
+    const message = await Message.findOneAndDelete({
+      _id: req.params.messageId,
+      room: req.params.room,
+    });
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
     }
-}*/
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

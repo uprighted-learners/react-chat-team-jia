@@ -1,44 +1,50 @@
-//this is where handler functions go
-//this is where handler functions go
-//!should look something like this:
-/*
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const Room = require("../models/roomModel");
 
-// POST - /api/register - register a new user
-exports.registerNewUser = async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = new User({
-            username: req.body.username,
-            password: hashedPassword
-        });
-        const newUser = await user.save();
-        res.status(201).json(newUser);
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: error.message });
+//GET == "/getallrooms" == gets all rooms
+exports.getAllRooms = async (req, res) => {
+  try {
+    const allRooms = await Room.find({});
+    if (allRooms.length === 0) throw Error("There are no rooms");
+    res.status(200).json(allRooms);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+//POST == "/create" == creates one room
+exports.createNewRoom = async (req, res) => {
+  try {
+    const { name, description, addedUsers } = req.params;
+    const newRoom = new Room({ name, description });
+    newRoom.addedUsers.push(addedUsers);
+    await newRoom.save();
+    res.status(200).json({ message: "Room Created", newRoom });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+//UPDATE == "/update/:name" == updates one room by name
+exports.updateRoomByName = async (req, res) => {
+  try {
+    const updatedRoom = await Room.updateOne({ name }, updatedRoom, {
+      new: true,
+    });
+    if (!updatedRoom) {
+      return res.status(200).json({ message: "Updated Room" });
     }
-}
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-// POST - /api/login - login a user
-exports.loginUser = async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) {
-        console.log("User not found"); // Logging for debug
-        return res.status(401).json({ message: "Invalid credentials" });
-    }
-    try {
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            const accessToken = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.status(200).json({ message: "Login successful", token: accessToken });
-        } else {
-            console.log("Password does not match"); // Logging for debug
-            res.status(401).json({ message: "Invalid credentials" });
-        }
-    } catch (error) {
-        console.error("Error during login", error); // More detailed error logging
-        res.status(500).json({ message: "Server error during login" });
-    }
-}*/
+//DELETE == "/delete/:name" == deletes one room by name
+exports.deleteRoomByName = async (req, res) => {
+  try {
+    const name = req.params.name;
+    //we need to find the specific room with specific name
+    const deletedRoom = await Room.deleteOne({ name });
+    if (!deletedRoom) throw Error("Room not found");
+    res.status(200).json({ message: "Room has been deleted", deletedRoom });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

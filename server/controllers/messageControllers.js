@@ -26,7 +26,7 @@ exports.createMessage = async (req, res) => {
 };
 
 // get == /message/get/:room == gets all messages
-exports.messages = async (req, res) => {
+exports.getMessages = async (req, res) => {
   try {
     const messages = await Message.find({ room: req.params.room });
     res.status(200).json(messages);

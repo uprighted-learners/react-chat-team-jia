@@ -1,19 +1,21 @@
 //THIS IS WHERE ENDPOINTS GO
 //!SHOULD LOOK LIKE THIS
 
-// const express = require("express");
-// const router = express.Router();
-// const userControllers = require("../controllers/userControllers");//changed the path to the controllers folder
 
-// // POST - /api/register - register a new user
-// router.post("/register", usersRoutes.addedUsers);
+const express = require('express');
+const router = express.Router();
+const userControllers = require('../controllers/userControllers'); //changed the path to the controllers folder
 
-// // POST - /api/login - login a user
-// router.post("/login", usersRoutes.loginUser);
 
-// //add update and delete endpoints /
+// POST - /api/register - register a new user
+router.post("/register", userControllers.registerNewUser)
 
-// //PUT - /api/update/:userName - update a user
-// router.put("/update", usersControllers.updateUser)//write function in user controllers
+// POST - /api/login - login a user
+router.post("/login", userControllers.loginUser); //write endpoint here
 
-// module.exports = router;
+//add update and delete endpoints /
+
+//PUT - /api/update/:userName - update a user
+router.put("/update", userControllers.updateUser); //write function in user controllers
+router.delete("/delete", userControllers.delete); //delete function in user controllers
+module.exports = router;

@@ -4,6 +4,7 @@ const DB_URI = process.env.MONGO_URI
 
 const Room = require('./roomModel.js')
 
+
 const User = new mongoose.Schema(
     {
      firstName: {type: String, required: true},

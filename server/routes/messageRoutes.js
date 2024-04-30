@@ -11,11 +11,11 @@ router.post('/create/:room', messageControllers.createMessage);
 // get == /message/get/:room == gets all messages
 router.get('/get/:room', messageControllers.getMessages);
 
-//put == /message/update/:room == updates a message
-router.put('/update/:room', messageControllers.updateMessage);
+//put == /message/update/:id == updates a message byId
+router.put('/update/:id', messageControllers.updateMessage);
 
-//Delete == /message/delete/:room == deletes a message
-router.delete('/delete/:room', messageControllers.deleteMessage);
+//Delete == /message/delete/:id == deletes a message byId
+router.delete('/delete/:id', messageControllers.deleteMessage);
 
 module.exports = router;
 

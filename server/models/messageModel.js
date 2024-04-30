@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
   room: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Room',
     required: true,
   },
@@ -20,7 +20,7 @@ const messageSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   // Add other message properties as needed
 });

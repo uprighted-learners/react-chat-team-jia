@@ -20,5 +20,6 @@ router.put("/update/:name", roomControllers.updateRoomByName);
 
 //DELETE == "/delete/:name" == deletes one room by name
 router.delete("/delete/:name", roomControllers.deleteRoomByName);
-
+//Delete endpoint will delete oldest entry if two have the same name
 module.exports = router;
+// alex and i have to establish admin privilege for rooms alex will do it for users

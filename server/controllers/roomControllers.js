@@ -24,13 +24,20 @@ exports.createNewRoom = async (req, res) => {
 };
 // //UPDATE == "/update/:name" == updates one room by name
 exports.updateRoomByName = async (req, res) => {
+  const roomName = req.params.name;
+  const roomUpdates = req.body;
   try {
-    const updatedRoom = await Room.updateOne({ name }, updatedRoom, {
-      new: true,
-    });
+    const updatedRoom = await Room.findOneAndUpdate(
+      { name: roomName },
+      roomUpdates,
+      {
+        new: true,
+      }
+    );
     if (!updatedRoom) {
-      return res.status(200).json({ message: "Updated Room" });
+      return res.status(404).json({ message: "Room not found" });
     }
+    return res.status(200).json(updatedRoom);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

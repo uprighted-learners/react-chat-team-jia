@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 const { connect } = require('./db.js');
 
+
 // Middleware setup
 const app = express();
 app.use(express.json());

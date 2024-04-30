@@ -1,5 +1,9 @@
 //-=+=- Helpful Note -=+=-
-//make sure to have the correct "key":"valuepairs" in your postman object for registration    
+//make sure to have the correct "key":"valuepairs" in your postman object for registration  here:"firstName": "alex",
+    // "lastName": "aubin",
+    // "email": "a@gamil.com",
+    // "password": "test"
+
 //
 const User = require('../models/userModel')
 require('dotenv').config()
@@ -68,10 +72,10 @@ exports.updateUser = async (req, res) => {
     try {
         // Find the user by username and update their information
         
-    const foundUser = await User.find({_id: req.params.id});
+    const foundUser = await User.find({id: req.params.id});
       if(!foundUser)throw Error("User does not exist");
       if(foundUser.isAdmin === false)throw Error("user does not have permission to update");//does not error right and might not even work properly
-    const updatedUser = await User.findOneAndUpdate({_id: req.params.id},   {firstName: req.body.firstName, lastName: req.body.lastName})
+    const updatedUser = await User.findOneAndUpdate({id: req.params.id},   {firstName: req.body.firstName, lastName: req.body.lastName})
           
         res.status(200).json({message: 'User updated successfully'});
     } catch (error) {
@@ -81,25 +85,6 @@ exports.updateUser = async (req, res) => {
     }
   }
 
-
-
-// exports.delete = async (req, res) => { //our function to delete a resource
-//     try{
-//       const foundUser = await User.find({_id: req.params.id})
-
-// if(!foundUser)throw Error("User does not exist")
-// // if(foundUser2.isAdmin === false)throw Error("User is not an admin")
-
-// const deletedUser = await User.findByIdAndDelete(req.params.id)
-//    if(!deletedUser)throw Error("Failed to delete user: " + req.params.id)  
-       
-      
-//       res.status(200).json({message: "account permanetly deleted"})
-//     }catch(err){//sends a response of 500 if something went wrong
-//   res.status(500).json({ message: "internal server erorr"});
-//     }
-   
-//  }
  exports.delete = async (req, res) => {
   try {
       // Find the user by username and update their information
@@ -117,13 +102,3 @@ exports.updateUser = async (req, res) => {
   }
 }
 
-//  exports.delete = async (req, res) => {
-//   try {
-//       const foundUserToDelete = req.params.id
-//       const filteredUser = User.filter(id => id.id !== id)
-      
-//   } catch (err) {
-//       console.error(err);
-//       return res.status(500).json({ message: "Internal server error" });
-//   }
-// };

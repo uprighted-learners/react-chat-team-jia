@@ -1,7 +1,7 @@
-const User = require("../models/userModel");
+const User = require('../models/userModel');
 //!should look something like this:
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // POST - /api/register - register a new user
 exports.registerNewUser = async (req, res) => {
@@ -25,27 +25,28 @@ exports.registerNewUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
   if (!user) {
-    console.log("User not found"); // Logging for debug
-    return res.status(401).json({ message: "Invalid credentials" });
+    console.log('User not found'); // Logging for debug
+    return res.status(401).json({ message: 'Invalid credentials' });
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const accessToken = jwt.sign(
         { username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: '1h' },
       );
-      res.status(200).json({ message: "Login successful", token: accessToken });
+      res.status(200).json({ message: 'Login successful', token: accessToken });
     } else {
-      console.log("Password does not match"); // Logging for debug
-      res.status(401).json({ message: "Invalid credentials" });
+      console.log('Password does not match'); // Logging for debug
+      res.status(401).json({ message: 'Invalid credentials' });
     }
   } catch (error) {
-    console.error("Error during login", error); // More detailed error logging
-    res.status(500).json({ message: "Server error during login" });
+    console.error('Error during login', error); // More detailed error logging
+    res.status(500).json({ message: 'Server error during login' });
   }
 };
 //PUT /api/update/:username - update a user
 exports.updateUser = async function (req, res) {
-  console.log("this doesnt do anything"); //make this update functionality
+  console.log('this doesnt do anything'); //make this update functionality
 };
+

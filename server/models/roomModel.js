@@ -4,14 +4,17 @@ const mongoose = require("mongoose");
 
 // User Schema
 const roomSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
     required: true,
-    unique: true,
   },
-  password: {
+  description: {
     type: String,
-    required: true,
+    required: false,
+  },
+  addedUsers: {
+    type: Array,
+    required: false,
   },
   timestamp: {
     type: Date,
@@ -20,4 +23,4 @@ const roomSchema = new mongoose.Schema({
 });
 
 // Create a model for a User
-module.exports = mongoose.model("room", roomSchemaSchema); //
+module.exports = mongoose.model("room", roomSchema);

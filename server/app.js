@@ -1,7 +1,7 @@
-const express = require('express'); // Importing the express module
- const cors = require('cors');
- require('dotenv').config()
-
+const express = require("express"); // Importing the express module
+const cors = require("cors");
+require("dotenv").config();
+const { connect } = require("./db.js");
 // Middleware setup
 const app = express();
 app.use(express.json());
@@ -14,7 +14,6 @@ app.use("/rooms", roomRoutes);
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  connect();
+  console.log(`Server is running on port ${PORT}`);
 });
-
- 

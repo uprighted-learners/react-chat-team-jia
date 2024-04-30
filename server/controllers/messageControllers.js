@@ -8,8 +8,6 @@ database and returning the created message in the response. */
 
 // post/ message/create/:room == creates a message in a room
 exports.createMessage = async (req, res) => {
-  //I added this line to get the room from the request parameters, check with donte to see if it is good?
-  const { room } = req.params;
   try {
     const message = new Message({
       room: req.params.room,
@@ -35,36 +33,28 @@ exports.getMessages = async (req, res) => {
   }
 };
 
-//put == /message/update/:room == updates a message
+//put == /message/update/:room/:id == updates a message byId
 exports.updateMessage = async (req, res) => {
-  const { room } = req.room;
   try {
-    const message = await new message.findOneAndUpdate({
-      room: req.params.room,
+    const message = await Message.findOneAndUpdate({
+      _id: req.params.id,
       body: req.body.body,
-      user: req.body.user,
-      date: Date.now(),
     });
-    if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
-    }
-    res.status(200).json(message);
+    if (!message) throw Error('Message not found');
+    res.status(200).json({ message: 'Message updated' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-//Delete == /message/delete/:room == deletes a message
+//Delete == /message/delete/:id == deletes a message byId
 exports.deleteMessage = async (req, res) => {
   try {
     const message = await Message.findOneAndDelete({
-      _id: req.params.messageId,
-      room: req.params.room,
+      _id: req.params.id,
     });
-    if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
-    }
-    res.status(200).json(message);
+    if (!message) throw Error('Message not found');
+    res.status(200).json({ message: 'Message deleted' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

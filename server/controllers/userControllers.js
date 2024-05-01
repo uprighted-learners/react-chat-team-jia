@@ -51,14 +51,13 @@ exports.registerNewUser = async (req, res) => {
   //login is currently throwing two erros which crashes the whole server
 exports.loginUser = async (req, res) => { 
   try{
-    const user = await User.find({ username: req.body.username });//finds the user object in database
+    const user = await User.findOne({ username: req.body.username });//finds the user object in database
     if (!user) {//if user doesnt exist then send error status/message
       
       console.log("User Not found"); // Logging for debug
      return res.status(401).json({ message: "Invalid credentials" });
   }  
   const passwordMatch = bcrypt.compare(req.body.password, user.password)
-
   if(passwordMatch){
     const accessToken = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });//grants authentication if login goes smoothly
     res.status(200).json({ message: "Login successful", token: accessToken });//good status

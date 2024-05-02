@@ -1,4 +1,6 @@
 //-=+=- Helpful Note -=+=-
+//when testing tthe endponts, use this syntax /users/<Your_endpoint>
+//Also make sure to user id for certain endpoints like Update and delete
 //make sure to have the correct "key":"valuepairs" in your postman object for registration  here:
 // "firstName": "alex",
 // "lastName": "aubin",
@@ -27,7 +29,7 @@ exports.registerNewUser = async (req, res) => {
       password: hashedPassword,
       email: req.body.email,
       timestamp: Date.now(),
-          // isAdmin: req.body.isAdmin,
+      isAdmin: req.body.isAdmin,
      })
      
       const {firstName, lastName, email, password} = req.body
@@ -46,7 +48,6 @@ exports.registerNewUser = async (req, res) => {
       res.status(400).json({ message: error.message });
   }//incase user fails to create
   };
-
   //A function to handle exports of this module
   //login is currently throwing two erros which crashes the whole server
 exports.loginUser = async (req, res) => { 
@@ -59,7 +60,9 @@ exports.loginUser = async (req, res) => {
   }  
   const passwordMatch = bcrypt.compare(req.body.password, user.password)
   if(passwordMatch){
-    const accessToken = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });//grants authentication if login goes smoothly
+    const accessToken = jwt.sign({ username: user.username }, 
+      process.env.JWT_SECRET, { expiresIn: '1h'});
+      //grants authentication if login goes smoothly
     res.status(200).json({ message: "Login successful", token: accessToken });//good status
   } else {
       console.log("Password does not match"); // Logging for debug
@@ -71,7 +74,7 @@ exports.loginUser = async (req, res) => {
   }
 }
 
-//PUT /api/update/:username - update a user
+//PUT /api/update/:username - update a user //to properly seperate these functions from an admin to users use the front end to program some perms but ultimatley dont display these endpoints
 exports.updateUser = async (req, res) => {
   try {
         // Find the user by username and update their information
@@ -81,7 +84,7 @@ exports.updateUser = async (req, res) => {
   if(!foundUser)throw Error("User does not exist");
   if(foundUser.isAdmin === false)throw Error("user does not have permission to update");//does not error right and might not even work properly
     const updatedUser = await User.findOneAndUpdate({id: req.params.id},   {firstName: req.body.firstName, lastName: req.body.lastName})
-          
+         
       res.status(200).json({message: 'User updated successfully'});
   } catch (error) {
         // If an error occurs during the update process, send an 500 response

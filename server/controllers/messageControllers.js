@@ -1,44 +1,62 @@
-//this is where handler functions go
-//this is where handler functions go
-//!should look something like this:
-/*
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const Message = require('../models/messageModel');
 
-// POST - /api/register - register a new user
-exports.registerNewUser = async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = new User({
-            username: req.body.username,
-            password: hashedPassword
-        });
-        const newUser = await user.save();
-        res.status(201).json(newUser);
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: error.message });
-    }
-}
+// make four crud function to handle messages
 
-// POST - /api/login - login a user
-exports.loginUser = async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) {
-        console.log("User not found"); // Logging for debug
-        return res.status(401).json({ message: "Invalid credentials" });
-    }
-    try {
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            const accessToken = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.status(200).json({ message: "Login successful", token: accessToken });
-        } else {
-            console.log("Password does not match"); // Logging for debug
-            res.status(401).json({ message: "Invalid credentials" });
-        }
-    } catch (error) {
-        console.error("Error during login", error); // More detailed error logging
-        res.status(500).json({ message: "Server error during login" });
-    }
-}*/
+/* create a message` comment is providing a descriptive label for the following function
+`createMessage`. This function is responsible for creating a new message by interacting with the
+database and returning the created message in the response. */
+
+// post/ message/create/:room == creates a message in a room
+exports.createMessage = async (req, res) => {
+  try {
+    const message = new Message({
+      room: req.params.room,
+      body: req.body.body,
+      user: req.body.user,
+      date: Date.now(),
+      // Add other message properties as needed
+    });
+    await message.save();
+    res.status(201).json(message);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// get == /message/get/:room == gets all messages
+exports.getMessages = async (req, res) => {
+  try {
+    const messages = await Message.find({ room: req.params.room });
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//put == /message/update/:room/:id == updates a message byId
+exports.updateMessage = async (req, res) => {
+  try {
+    const message = await Message.findOneAndUpdate({
+      _id: req.params.id,
+      body: req.body.body,
+    });
+    if (!message) throw Error('Message not found');
+    res.status(200).json({ message: 'Message updated' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//Delete == /message/delete/:id == deletes a message byId
+exports.deleteMessage = async (req, res) => {
+  try {
+    const message = await Message.findOneAndDelete({
+      _id: req.params.id,
+    });
+    if (!message) throw Error('Message not found');
+    res.status(200).json({ message: 'Message deleted' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

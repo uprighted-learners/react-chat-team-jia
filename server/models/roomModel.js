@@ -1,18 +1,21 @@
 // !THIS IS WHAT OUR SCHEMA SHOULD LOOK LIKE, BUT WE HAVE TO CHANGE IT TO CONST ROOMSCHEMA (CAMELCASE) ETC
 // !THIS IS WHAT OUR SCHEMA SHOULD LOOK LIKE, BUT WE HAVE TO CHANGE IT TO CONST ROOMSCHEMA (CAMELCASE) ETC
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // User Schema
 const roomSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
     required: true,
-    unique: true,
   },
-  password: {
+  description: {
     type: String,
-    required: true,
+    required: false,
+  },
+  addedUsers: {
+    type: Array,
+    required: false,
   },
   timestamp: {
     type: Date,
@@ -21,4 +24,4 @@ const roomSchema = new mongoose.Schema({
 });
 
 // Create a model for a User
-module.exports = mongoose.model("room", roomSchema); //
+module.exports = mongoose.model("room", roomSchema);

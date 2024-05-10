@@ -7,7 +7,7 @@ const router = express.Router();
 const userControllers = require('../controllers/userControllers'); //changed the path to the controllers folder
 
 //GET -/api/login -
-router.get("/login", userControllers.getAllRooms);
+router.post("/login", userControllers.loginUser);
 
 //add update and delete endpoints /
 // POST - /users/register - register a new user

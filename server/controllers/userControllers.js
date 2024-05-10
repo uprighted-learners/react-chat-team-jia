@@ -50,7 +50,8 @@ exports.registerNewUser = async (req, res) => {
   };
   //A function to handle exports of this module
   //login is currently throwing two erros which crashes the whole server
-exports.loginUser = async (req, res) => { 
+  
+exports.loginUser = async (req, res) => { //find the users through their email rather than username, because username doesnt exist
   try{
     const user = await User.findOne({ username: req.body.username });//finds the user object in database
     if (!user) {//if user doesnt exist then send error status/message

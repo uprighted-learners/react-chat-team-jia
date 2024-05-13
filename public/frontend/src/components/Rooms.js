@@ -17,11 +17,10 @@ export default function Rooms() {
 
   return { fetchRooms };
 
-  return (
-    <div>
-      <h2>Click On A Room Any Room</h2>
-      <input type="text" value={Rooms} />
-      <button type="Send">Send</button>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <h2>Click On A Room Any Room</h2>
+  //     <input type="text" value={Rooms} />
+  //     <button type="Send">Send</button>
+  //   </div>
 }

@@ -25,6 +25,10 @@ export default function RegisterForm() {
                 });
     if(response.ok){
         const data = await response.json();
+        setFirstName('')
+        setLastname('')
+        setPassword('')
+        setEmail('')
         console.log("registration successful");
         console.log(data)
         
@@ -65,6 +69,7 @@ export default function RegisterForm() {
                         required
                     />
                     <input id="registerBtn" type="submit" value="Register" />
+
                 </form>
             </div>
         );

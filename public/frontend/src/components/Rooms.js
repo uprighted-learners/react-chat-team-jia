@@ -9,16 +9,18 @@ export default function Rooms() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("localhost:8080/rooms/getAllrooms");
+      const response = await fetch("http://localhost:8080/rooms/getAllrooms", {
+        method: "GET",
+      });
       const data = await response.json();
       setRooms(data);
-      // } console.log(Rooms);
+      console.log(rooms);
     } catch (error) {
       alert("Failed to fetch rooms: " + error.message);
     }
   };
 
-  return [fetchRooms];
+  return <>{fetchRooms}</>;
 
   // return (
   //   <div>

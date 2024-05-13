@@ -9,7 +9,7 @@ export default function Rooms() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("http://localhost:8080/rooms/getAllrooms", {
+      const response = await fetch("http://localhost:8080/rooms/getallrooms", {
         method: "GET",
       });
       const data = await response.json();
@@ -20,7 +20,16 @@ export default function Rooms() {
     }
   };
 
-  return <>{fetchRooms}</>;
+  return (
+    <>
+      {fetchRooms}{" "}
+      {rooms.map((room) => (
+        <div>{room.name}</div>
+        //room.description
+        //redirect to room when click (on click on path to room)
+      ))}
+    </>
+  );
 
   // return (
   //   <div>

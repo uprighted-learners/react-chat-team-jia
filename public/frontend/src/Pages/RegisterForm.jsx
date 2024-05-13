@@ -1,14 +1,14 @@
 import React from 'react'
 import  { useState } from 'react';
     import { useNavigate } from 'react-router-dom';
-export default function RegisterForm() {
+export default function RegisterForm() {//instaniate variables to declare password etc, and the functions to allow interaction with inputs
         const [lastName, setLastname] = useState('');
         const [password, setPassword] = useState('');
         const [email, setEmail] = useState('');
         const [firstName, setFirstName] = useState('');
       const navigate = useNavigate()
-        const handleSubmit = async (e) => {
-            e.preventDefault();
+        const handleSubmit = async (e) => {//make  a handle submit function call upon in  order to allow our button to have all the logic
+            e.preventDefault();//every form has prevent default functionality essentailly disabling functionality of  the default button and allowing our code to hanle the submit
     
             try {
                 const response = await fetch(`http://localhost:8080/users/register`, {
@@ -16,15 +16,15 @@ export default function RegisterForm() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
+                    body: JSON.stringify({//allow our inputs to be passed through as string because we need string instead of objects
                         firstName,
                         lastName,
                         email,
                         password,
                     }),
                 });
-    if(response.ok){
-        const data = await response.json();
+    if(response.ok){//conditional handling all the positive outcomes of the server response 
+        const data = await response.json();//parsing our data and returning it as a string
         setFirstName('')
         setLastname('')
         setPassword('')
@@ -32,7 +32,7 @@ export default function RegisterForm() {
         console.log("registration successful");
         console.log(data)
         
-        navigate('/login')
+        navigate('/login')//after a successful register we navigate user to login
     }
               
              
@@ -40,7 +40,7 @@ export default function RegisterForm() {
                 
                
             } catch (error) {
-                console.error('Error during registration:', error);
+                console.error('Error during registration:', error);//error handling for this entire registration process
             }
         };
     
@@ -49,8 +49,8 @@ export default function RegisterForm() {
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="First Name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={firstName}//the value of the first name input onChange={(e) => setFirstName(e.target.value)}//if the input changes due to setting the firstname find the value of what user entered 
+                        
                         required
                     />
                     <input type="text" placeholder="Last Name"

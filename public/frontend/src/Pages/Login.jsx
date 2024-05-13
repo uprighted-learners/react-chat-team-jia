@@ -3,7 +3,7 @@ import React from 'react'
 //     import { useNavigate } from 'react-router-dom';
 
 
-export default function Login(){
+export default function Login(){ 
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const handleSubmit = async (e) => {
@@ -20,12 +20,15 @@ const handleSubmit = async (e) => {
             }),
         });
         const data = await response.json();
+        console.log(response.ok)
         if(response.ok){//do we impelent admin perms here??
             setEmail('')
             setPassword('')
             localStorage.setItem('token', data.token)
             alert('login successful')
             window.location.href = '/'
+        }else{
+
         }
         console.log(data);
     } catch (error) {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-export default function Rooms() {
+export default function Rooms({ setRoomID }) {
   const [rooms, setRooms] = useState([]);
-
+  const [roomName, setRoomName] = useState("");
+  const [description, setDescription] = useState("");
   useEffect(() => {
     fetchRooms();
   }, []);
@@ -16,25 +17,49 @@ export default function Rooms() {
       setRooms(data);
       console.log(rooms);
     } catch (error) {
-      alert("Failed to fetch rooms: " + error.message);
+      alert("Failed to fetch rooms:" + error.message);
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:8080/rooms/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: roomName, description }),
+    })
+      .then((res) => res.json())
+      .then(setRoomName(""), setDescription(""))
+      .catch((error) => console.error("failed to create", error));
+  };
   return (
     <>
-      {fetchRooms}{" "}
-      {rooms.map((room) => (
-        <div>{room.name}</div>
-        //room.description
-        //redirect to room when click (on click on path to room)
-      ))}
+      <div>
+        {fetchRooms};
+        {rooms.map((room) => (
+          <h1 key={room._id} onClick={setRoomID(room._id)}>
+            {" "}
+            {room.name}:<span>{room.description}</span>
+          </h1>
+        ))}
+      </div>
+      <div>
+        <h2>Type in the Name of the Room You'd Like to Create</h2>
+        <form>
+          <input
+            type="text"
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button onClick={handleSubmit}>Send</button>
+        </form>
+      </div>
     </>
   );
-
-  // return (
-  //   <div>
-  //     <h2>Click On A Room Any Room</h2>
-  //     <input type="text" value={Rooms} />
-  //     <button type="Send">Send</button>
-  //   </div>
 }

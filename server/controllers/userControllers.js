@@ -15,6 +15,9 @@ require('dotenv').config()
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SALT = process.env.SALT//uses enviroment variable assuming the salt rounds are set via .env
+const nodemailer = require('nodemailer');
+
+// Create a transporter object using SMTP transport
 
 // POST - /user/register - register a new user
 exports.registerNewUser = async (req, res) => {
@@ -48,30 +51,28 @@ exports.registerNewUser = async (req, res) => {
       res.status(400).json({ message: error.message });
   }//incase user fails to create
   };
-  //A function to handle exports of this module
-  //login is currently throwing two erros which crashes the whole server
-  
+
 exports.loginUser = async (req, res) => { //find the users through their email rather than username, because username doesnt exist
   try{
-    const user = await User.findOne({ username: req.body.username });//finds the user object in database
+    const user = await User.findOne({ email: req.body.email });//finds the user object in database
     if (!user) {//if user doesnt exist then send error status/message
       
       console.log("User Not found"); // Logging for debug
-     return res.status(401).json({ message: "Invalid credentials" });
+   res.status(401).json({ message: "Invalid credentials" });
   }  
   const passwordMatch = bcrypt.compare(req.body.password, user.password)
   if(passwordMatch){
-    const accessToken = jwt.sign({ username: user.username }, 
+    const accessToken = jwt.sign({ email: user.email }, 
       process.env.JWT_SECRET, { expiresIn: '1h'});
       //grants authentication if login goes smoothly
-    res.status(200).json({ message: "Login successful", token: accessToken });//good status
+    res.status(200).json({ message: "Login successful", token: accessToken });//good status 
   } else {
       console.log("Password does not match"); // Logging for debug
         res.status(401).json({ message: "Invalid credentials" });
         }//more data validation 
       }catch (error) {
       console.error("Error during login", error); // More detailed error logging
-      res.status(500).json({ message: "Server error during login" });
+      res.status(500).json({ message: "Server error during login" }); //change to throw a error instead of res.status
   }
 }
 
@@ -110,4 +111,5 @@ exports.delete = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 }
+
 

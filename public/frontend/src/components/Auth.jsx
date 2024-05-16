@@ -1,48 +1,43 @@
-import React, { useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+//admin perms in this file
+import { useState, Link, Navigation } from 'react-router-dom'
 
+// document.getElementById('btn1').disabled = true
+export default function AdminFunctionality(){
+    const [isAdmin, setisAdmin] = useState({admin: true})
+    const handleAdminToggle = async (e) => {
+        e.preventDefault();
+       const buttonToggle = document.getElementById('btn1').disabled = true;
+        document.getElementById('btn1').innerHTML = 'Admin';
+        document.getElementById('btn1').style.backgroundColor = 'green';
+        document.getElementById('btn1').style.color = 'white';
+        document.getElementById('btn1').style.border = 'none';
+        document.getElementById('btn1').style.borderRadius = '5px';
+        document.getElementById('btn1').style.padding = '5px';
+        document.getElementById('btn1').style.margin = '5px';
+        document.getElementById('btn1').style.cursor = 'pointer';
+        document.getElementById('btn1').style.fontSize = '15px';
+        document.getElementById('btn1').style.fontWeight = 'bold';
+        document.getElementById('btn1').style.fontFamily = 'sans-serif';
+    // if(isAdmin === true){
 
-export default async function registrationForm (){
-   
-    const [lastName, setLastname] = useState('')
-    const [ password, setPassword] = useState('')
-    const [email, setEmail] = useState('')
-    const [firstName, setFirstName] = useState('')
-//    const navigate = useNavigate()
-   const response = await fetch(`localhost:8080/users/register`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        email,
-        password
-    })
-})
-
-const data = response.json({})
-return(
-    <div classname="FormWrapper">
-            <h1>Register</h1>
-            <form>
-                <input type="text" placeholder="First Name" 
-                value={firstName} 
-                onChange={(e) => setFirstName(e.target.value)} 
-                required/>
-                <input type="text" placeholder="Last Name" 
-                value={lastName}
-                onChange={(e) => setLastname(e.target.value)}  
-                required/>
-                <input type="email" placeholder="Email"
-                required 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} />
-                <input type="password" placeholder="Password" 
-                   onChange={(e) => setPassword(e.target.value)} 
-                value={password}
-                required/>
-                <input id="registerBtn"type="submit" value="Register"/>
-            </form>
-        </div>
+    // }
+        const repsonse = await fetch('http://localhost:8080/users/updateUser',{
+            method: 'UPDATE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: 'admin',
+                password: '123',
+            }),
+        }) 
+        return(
+            <div id="FormWrapper">
+                <button><Link to='/'>Home</Link></button>
+              <button id="btn1">Attempt Admin Privs</button>
+            </div>
+           
         )
+
+}
 }

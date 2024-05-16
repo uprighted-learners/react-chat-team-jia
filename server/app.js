@@ -19,6 +19,10 @@ app.use('/messages', messageRoutes);
 
 const PORT = process.env.PORT || 8080;
 
+const nodemailer = require('nodemailer');
+
+// Create a transporter object using SMTP transport
+
 app.listen(PORT, () => {
   connect();
   console.log(`Server is running on port ${PORT}`);

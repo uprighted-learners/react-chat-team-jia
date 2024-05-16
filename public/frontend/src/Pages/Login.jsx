@@ -1,5 +1,6 @@
 import React from 'react'
  import  { useState } from 'react';
+ import '../components/Navigation.css'
 //     import { useNavigate } from 'react-router-dom';
 
 
@@ -35,18 +36,37 @@ const handleSubmit = async (e) => {
         console.log(error);
     }
 }
+
 return(//add in our navigation bar for every  document
 <div>
-    <h2>Login</h2>
-    <form onSubmit={handleSubmit}>
+    <h2 className='h2' >Login</h2>
+    <form className='container' onSubmit={handleSubmit}>
         <label>email:</label>
         <input type="text" value={email} onChange={(e)=> setEmail (e.target.value)} required/>
         <label>Password:</label>
         <input type="password" value={password} onChange={(e)=> setPassword (e.target.value)} required/>
         <button type="submit">Login</button>
     </form>
+    
 </div>
 
 )
     
 }
+// export default function Forgot(){
+//     const [password, setPassword] = useState('')
+// const handleForgotPassword = async (e) => {
+//     e.preventDefault();
+
+// }
+//     return(
+//         <form>
+// <button onSubmit={''}>Send Email</button>
+//     </form>
+//     )
+// }
+
+
+
+
+

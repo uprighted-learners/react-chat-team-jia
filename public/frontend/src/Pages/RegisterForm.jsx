@@ -1,5 +1,6 @@
 import React from 'react'
 import  { useState } from 'react';
+import '../components/Navigation.css'
     import { useNavigate } from 'react-router-dom';
 export default function RegisterForm() {//instaniate variables to declare password etc, and the functions to allow interaction with inputs
         const [lastName, setLastname] = useState('');
@@ -45,12 +46,17 @@ export default function RegisterForm() {//instaniate variables to declare passwo
         };
     
         return (
+   
+           
+           
             <div className="FormWrapper">
-                <h1>Register</h1>
-                <form onSubmit={handleSubmit}>
+     
+    
+                <h1 classname="h1" >Register</h1>
+                <form className='container' onSubmit={handleSubmit}>
                     <input type="text" placeholder="First Name"
-                        value={firstName}//the value of the first name input onChange={(e) => setFirstName(e.target.value)}//if the input changes due to setting the firstname find the value of what user entered 
-                        
+                        value={firstName}
+                  onChange= {(e) => setFirstName(e.target.value)}
                         required
                     />
                     <input type="text" placeholder="Last Name"
@@ -69,6 +75,7 @@ export default function RegisterForm() {//instaniate variables to declare passwo
                         required
                     />
                     <input id="registerBtn" type="submit" value="Register" />
+                
 
                 </form>
             </div>

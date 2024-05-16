@@ -1,10 +1,10 @@
-const Room = require('../models/roomModel');
+const Room = require("../models/roomModel");
 
 // // GET == "/getallrooms" == gets all rooms
 exports.getAllRooms = async (req, res) => {
   try {
     const allRooms = await Room.find({});
-    if (allRooms.length === 0) throw Error('There are no rooms');
+    if (allRooms.length === 0) throw Error("There are no rooms");
     res.status(200).json(allRooms);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,11 +13,11 @@ exports.getAllRooms = async (req, res) => {
 // POST == "/create" == creates one room
 exports.createNewRoom = async (req, res) => {
   try {
-    const { name, description, addedUsers } = req.body;
-    const newRoom = new Room({ name, description, addedUsers });
+    const { name, description } = req.body;
+    const newRoom = new Room({ name, description });
     // newRoom.addedUsers.push(addedUsers);
     await newRoom.save();
-    res.status(200).json({ message: 'Room Created', newRoom });
+    res.status(200).json({ message: "Room Created", newRoom });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -35,8 +35,8 @@ exports.updateRoomByName = async (req, res) => {
       }
     );
     if (!updatedRoom) {
-   return res.status(404).json({ message: "Room not found" });
- }
+      return res.status(404).json({ message: "Room not found" });
+    }
     return res.status(200).json(updatedRoom);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -49,10 +49,9 @@ exports.deleteRoomByName = async (req, res) => {
     const name = req.params.name;
     // we need to find the specific room with specific name
     const deletedRoom = await Room.deleteOne({ name });
-    if (!deletedRoom) throw Error('Room not found');
-    res.status(200).json({ message: 'Room has been deleted', deletedRoom });
+    if (!deletedRoom) throw Error("Room not found");
+    res.status(200).json({ message: "Room has been deleted", deletedRoom });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-

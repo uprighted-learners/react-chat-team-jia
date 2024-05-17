@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom";
 
 export default function Rooms({ setRoomID }) {
   const [rooms, setRooms] = useState([]);
@@ -35,7 +36,7 @@ export default function Rooms({ setRoomID }) {
   return (
     <>
       <div>
-        {fetchRooms};
+        {fetchRooms}
         {rooms.map((room) => (
           <h1 key={room._id} onClick={setRoomID(room._id)}>
             {" "}
@@ -60,6 +61,7 @@ export default function Rooms({ setRoomID }) {
           <button onClick={handleSubmit}>Send</button>
         </form>
       </div>
+
     </>
   );
 }

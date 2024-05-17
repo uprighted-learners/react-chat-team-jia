@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 export default function Messages() {
   // this will be used to store the messages and the name of the room
   const [messages, setMessages] = useState({ name: '', messages: [] });
-
+const [roomId, setRoomId] = useState([])
   // this is the useEffect hook that will be used to fetch the messages from the api endpoint
 
   useEffect(() => {
     const fetchMessages = async () => {
+      
       try {
         // Fetch messages from the API endpoint and set the messages state with the response data
         const response = await fetch(
@@ -24,7 +25,7 @@ export default function Messages() {
 
 
 
-  see if this is what is needed for the fetch messages or the top parent, which one ?
+  // see if this is what is needed for the fetch messages or the top parent, which one ?
 
   const fetchMessages = async () => {
     try {
@@ -35,7 +36,7 @@ export default function Messages() {
     console.log(data);
 
     // POST request
-    response = await fetch('`http://localhost:8080/messages/rooms/${roomId}, {
+    response = await fetch(`http://localhost:8080/messages/rooms/${roomId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,8 +57,11 @@ export default function Messages() {
     console.log(data);
 
     // DELETE request
-    response = await fetch('`http://localhost:8080/messages/rooms/${roomId}, {
+    response = await fetch(`http://localhost:8080/messages/rooms/${roomId}`,{ 
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     if (response.ok) {
       console.log('Message deleted');
@@ -82,7 +86,7 @@ export default function Messages() {
         ))}
       </>
 
-    </div>;
+    </div>
   )
 }
 

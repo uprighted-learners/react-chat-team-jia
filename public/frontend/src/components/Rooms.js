@@ -35,7 +35,7 @@ export default function Rooms({ setRoomID }) {
   return (
     <>
       <div>
-        {fetchRooms};
+        {fetchRooms}
         {rooms.map((room) => (
           <h1 key={room._id} onClick={setRoomID(room._id)}>
             {" "}

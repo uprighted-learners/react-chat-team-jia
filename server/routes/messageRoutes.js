@@ -5,11 +5,11 @@ const express = require('express');
 const router = express.Router();
 const messageControllers = require('../controllers/messageControllers');
 
-// post/ message/create:room == creates a message in a room
-router.post('/create/:room', messageControllers.createMessage);
+// post/ message/create/:id == creates a message in a room by id
+router.post('/create/:id', messageControllers.createMessage);
 
-// get == /message/get/:room == gets all messages
-router.get('/get/:room', messageControllers.getMessages);
+// get == /message/get/:id == gets all messages by id
+router.get('/get/:id', messageControllers.getMessages);
 
 //put == /message/update/:id == updates a message byId
 router.put('/update/:id', messageControllers.updateMessage);

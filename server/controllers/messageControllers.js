@@ -6,11 +6,11 @@ const Message = require('../models/messageModel');
 `createMessage`. This function is responsible for creating a new message by interacting with the
 database and returning the created message in the response. */
 
-// post/ message/create/:room == creates a message in a room
+// post/ message/create/:id == creates a message in a room by id
 exports.createMessage = async (req, res) => {
   try {
     const message = new Message({
-      room: req.params.room,
+      room: req.params.id,
       body: req.body.body,
       user: req.body.user,
       date: Date.now(),
@@ -23,10 +23,10 @@ exports.createMessage = async (req, res) => {
   }
 };
 
-// get == /message/get/:room == gets all messages
+// get == /message/get/:id == gets all messages by id
 exports.getMessages = async (req, res) => {
   try {
-    const messages = await Message.find({ room: req.params.room });
+    const messages = await Message.find({ room: req.params.id });
     res.status(200).json(messages);
   } catch (error) {
     res.status(500).json({ error: error.message });

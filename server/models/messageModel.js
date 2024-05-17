@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
   room: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Room',
     required: true,
   },

@@ -5,8 +5,6 @@ import Rooms from "./components/Rooms.js";
 import Messages from "./components/Messages.js";
 import Login from "./Pages/Login.jsx";
 import RegisterForm from "./Pages/RegisterForm.jsx";
-import Admin from "./Pages/Admin.js";
-
 import Login from "./Pages/Login.jsx";
 import RegisterForm from "./Pages/RegisterForm.jsx";
 export default function App() {

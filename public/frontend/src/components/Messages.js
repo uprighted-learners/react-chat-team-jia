@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function MessagesComponent({ roomID }) {
-  // this will be used to store the messages and the name of the room
-  const [messages, setMessages] = useState({ name: '', messages: [] });
+//this will be the component that will display the messages for the room selected by the user in the Rooms component
+export default function MessagesComponent({ roomSelected, roomID }) {
+  const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState('');
+  const [body, setBody] = useState('');
+  const [room, setRoom] = useState(roomSelected);
 
-  // this is the useEffect hook that will be used to fetch the messages from the api endpoint
-
-  useEffect(() => {
-    fetchMessages();
-  }, [roomID]);
-
-  //POST, fetching the back end api point
+  // this function will post the messages to the database and then set the messages state to the new messages array that includes the new message that was posted by the user
+  //this is a post
   const postMessages = async (room, user, body) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/messages/create/${roomID}`,
+        `http://localhost:8080/messages/create/${roomSelected}`,
         {
           method: 'POST',
           headers: {
@@ -26,15 +25,16 @@ export default function MessagesComponent({ roomID }) {
       const data = await response.json();
       setMessages(data);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 
-  //GET, fetch the back end read api end point
+  // this function will fetch the messages from the database and then set the messages state to the messages array that was fetched from the database
+  //this is a GET
   const fetchMessages = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/messages/get/${roomID}`,
+        `http://localhost:8080/messages/get/${room}`,
         {
           method: 'GET',
           headers: {
@@ -43,17 +43,20 @@ export default function MessagesComponent({ roomID }) {
         },
       );
       const data = await response.json();
-      setMessages(data);
+      setMessages(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error:', error);
+      setMessages([]);
     }
   };
 
-  //PUT, fetching the back end api end point
+  // this function will update the messages in the database and then set the messages state to the new messages array that includes the new message that was posted by the user
+  //this is a PUT
   const updateMessages = async () => {
     try {
+      // this is where the messages are updated in the database by sending a PUT request to the server with the room name as the parameter
       const response = await fetch(
-        `http://localhost:8080/messages/update/${roomID}`,
+        `http://localhost:8080/messages/update/${room}`,
         {
           method: 'PUT',
           headers: {
@@ -62,13 +65,15 @@ export default function MessagesComponent({ roomID }) {
         },
       );
       const data = await response.json();
-      setMessages(data);
+      // this is where the messages state is set to the new messages array that includes the new message that was posted by the user
+      setMessages(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  //DELETE, fetching the back end api end point
+  // this function will delete the messages from the database and then set the messages state to the new messages array that includes the new message that was posted by the user
+  //this is a DELETE
   const deleteMessages = async (id) => {
     try {
       const response = await fetch(
@@ -81,28 +86,59 @@ export default function MessagesComponent({ roomID }) {
         },
       );
       const data = await response.json();
-      setMessages(data);
+      // this is where the messages state is set to the new messages array that includes the new message that was posted by the user
+      setMessages(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  fetchMessages();
 
-  //need to render the back end messages
-  // this will render the messages in the room
+  // this is where the messages are fetched from the database when the component is mounted and the roomSelected state is updated
+  useEffect(() => {
+    fetchMessages();
+  }, [roomSelected]);
 
+  // this is where the messages will be rendered to the screen and the user can post messages to the database by typing in their name and message in the input fields and then clicking the send message button
   return (
-    <div>
-      <h1>{'room name goes here'}</h1>
-      <>
-        {messages.map((message) => (
-          <div key={message.id}>
-            <h2>{message.user}</h2>
-            <p>{message.body}</p>
-          </div>
-        ))}
-      </>
-    </div>
+    <>
+      <div>
+        <h1>{roomSelected}</h1>
+        {messages.length > 0 ? (
+          messages.map((message) => (
+            <div key={message.id}>
+              <h2>{message.user}</h2>
+              <p>{message.body}</p>
+            </div>
+          ))
+        ) : (
+          <p>No messages yet.</p>
+        )}
+      </div>
+      <form>
+        <input
+          type='text'
+          placeholder='Type your name here'
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          required
+        />
+        <input
+          type='text'
+          placeholder='Type your message here'
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          required
+        />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            postMessages(room, user, body);
+          }}
+        >
+          Send Message
+        </button>
+      </form>
+    </>
   );
 }
 

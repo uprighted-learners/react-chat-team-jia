@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function Rooms({ setRoomID }) {
+export default function Rooms({ setRoomSelected }) {
   const [rooms, setRooms] = useState([]);
   const [roomName, setRoomName] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
   useEffect(() => {
     fetchRooms();
   }, []);
@@ -33,14 +34,26 @@ export default function Rooms({ setRoomID }) {
       .then(setRoomName(''), setDescription(''))
       .catch((error) => console.error('failed to create', error));
   };
+  function goToMessages(location) {
+    setRoomSelected(location);
+    navigate(`/messages/${location}`);
+  }
   return (
     <>
       <div>
         {fetchRooms}
         {rooms.map((room) => (
-          <h1 key={room._id} onClick={setRoomID(room._id)}>
+          <h1 key={room._id}>
             {' '}
             {room.name}:<span>{room.description}</span>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                goToMessages(room._id);
+              }}
+            >
+              Go To Room!
+            </button>
           </h1>
         ))}
       </div>

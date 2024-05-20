@@ -5,11 +5,11 @@ import Rooms from './components/Rooms.js';
 import Messages from './components/Messages.js';
 import Login from './Pages/Login.jsx';
 import RegisterForm from './Pages/RegisterForm.jsx';
-import Login from './Pages/Login.jsx';
-import RegisterForm from './Pages/RegisterForm.jsx';
 export default function App() {
-  const [roomID, setRoomID] = useState('');
-
+  const [roomSelected, setRoomSelected] = useState('');
+  function selectionFromChild(id) {
+    setRoomSelected(id);
+  }
   return (
     <Router>
       <div>
@@ -28,8 +28,14 @@ export default function App() {
         </div>
         <h1>Chat Rooms</h1>
         <Routes>
-          <Route path='/' element={<Rooms setRoomID={setRoomID} />} />
-          <Route path='/' element={<Messages />} />
+          <Route
+            path='/'
+            element={<Rooms setRoomSelected={selectionFromChild} />}
+          />
+          <Route
+            path='/messages/:id'
+            element={<Messages roomSelected={roomSelected} />}
+          />
           <Route path='/register' element={<RegisterForm />} />
           <Route path='/login' element={<Login />} />
         </Routes>

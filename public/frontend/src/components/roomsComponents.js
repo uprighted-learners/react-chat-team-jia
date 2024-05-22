@@ -41,16 +41,14 @@ export default function RoomsComponents() {
 
 //render the rooms
   return (
-    <div>
-      <h1>{room.name}</h1>
       <>
+      <h1>{room.name}</h1>
         {rooms.messages.map((messages, rooms) => (
           <div key={message.id}>
             <h2>{message.user}</h2>
             <p>{message.body}</p>
           </div>
         ))}
-      </div>
     </>
   );
 }

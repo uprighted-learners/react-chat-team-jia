@@ -22,7 +22,7 @@ export default function Rooms({ setRoomSelected }) {
       alert('Failed to fetch rooms:' + error.message);
     }
   };
-
+//This function allows the client to create a new chat room and their description//
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch('http://localhost:8080/rooms/create', {
@@ -41,6 +41,7 @@ export default function Rooms({ setRoomSelected }) {
   return (
     <>
       <div>
+  {/* This will grab the rooms from the MongoDB by the ID on the back end and display to the front */}
         {fetchRooms}
         {rooms.map((room) => (
           <h1 key={room._id}>
@@ -59,6 +60,7 @@ export default function Rooms({ setRoomSelected }) {
       </div>
       <div>
         <h2>Type in the Name of the Room You'd Like to Create</h2>
+        {/* form added to front end so that client can add a room name and a description */}
         <form>
           <input
             type='text'

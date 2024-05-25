@@ -1,39 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Rooms({ setRoomSelected }) {
   const [rooms, setRooms] = useState([]);
-  const [roomName, setRoomName] = useState('');
-  const [description, setDescription] = useState('');
+  const [roomName, setRoomName] = useState("");
+  const [description, setDescription] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     fetchRooms();
   }, []);
-
+  //This is a GET request, GET comes from backend
   const fetchRooms = async () => {
     try {
-      const response = await fetch('http://localhost:8080/rooms/getallrooms', {
-        method: 'GET',
+      const response = await fetch("http://localhost:8080/rooms/getallrooms", {
+        method: "GET",
       });
       const data = await response.json();
       setRooms(data);
-      console.log(rooms);
     } catch (error) {
-      alert('Failed to fetch rooms:' + error.message);
+      alert("Failed to fetch rooms:" + error.message);
     }
   };
-//This function allows the client to create a new chat room and their description//
+  //POST request, creates new rooms//
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/rooms/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("http://localhost:8080/rooms/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: roomName, description }),
     })
       .then((res) => res.json())
-      .then(setRoomName(''), setDescription(''))
-      .catch((error) => console.error('failed to create', error));
+      .then(setRoomName(""), setDescription(""))
+      .catch((error) => console.error("failed to create", error));
   };
+
+  // redirects to specific room
   function goToMessages(location) {
     setRoomSelected(location);
     navigate(`/messages/${location}`);
@@ -41,11 +42,11 @@ export default function Rooms({ setRoomSelected }) {
   return (
     <>
       <div>
-  {/* This will grab the rooms from the MongoDB by the ID on the back end and display to the front */}
+        {/* Below renders all rooms and adds button and renders message to go to room */}
         {fetchRooms}
         {rooms.map((room) => (
           <h1 key={room._id}>
-            {' '}
+            {" "}
             {room.name}:<span>{room.description}</span>
             <button
               onClick={(e) => {
@@ -60,23 +61,23 @@ export default function Rooms({ setRoomSelected }) {
       </div>
       <div>
         <h2>Type in the Name of the Room You'd Like to Create</h2>
-        {/* form added to front end so that client can add a room name and a description */}
+        {/* form to take room name and description from user input*/}
         <form>
           <input
-            type='text'
+            type="text"
             value={roomName}
             onChange={(e) => setRoomName(e.target.value)}
             required
           />
           <input
-            type='text'
+            type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          {/* //On Click a new room is POSTed */}
           <button onClick={handleSubmit}>Send</button>
         </form>
       </div>
     </>
   );
 }
-

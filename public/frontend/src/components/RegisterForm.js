@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react'//these are Imports very important for importing files and technologies
 import  { useState } from 'react';
 import '../components/Navigation.css'
-    import { useNavigate } from 'react-router-dom';
+    import { useNavigate } from 'react-router-dom';//a package for React applications that enables routing functionality, URLs (or paths) in your web application, allowing you to define different pages, and simulating a pagless navigation
 export default function RegisterForm() {//instaniate variables to declare password etc, and the functions to allow interaction with inputs
         const [lastName, setLastname] = useState('');
         const [password, setPassword] = useState('');
@@ -45,7 +45,8 @@ export default function RegisterForm() {//instaniate variables to declare passwo
             }
         };
     
-        return (
+        return (//RETURN SEPERATING PROGRAMMING FROM HTML this html is a form for registration
+        //the onChange functions links the backend to front depending on whats been typed
    
            
            

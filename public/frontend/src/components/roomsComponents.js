@@ -11,7 +11,7 @@ export default function RoomsComponents() {
 
 // use effect to fetch room
   useEffect(() => {
-    fetch('`http://localhost:8080/messages/rooms/${roomId}')// fetch room endpoint
+    fetch('http://localhost:8080/messages/rooms/${roomId}')// fetch room endpoint
       .then(response => response.json())// parse response to json
       .then(data => setRoom(data.room))// set room state
       .catch(error => console.error(error))// catch any errors
@@ -54,4 +54,3 @@ export default function RoomsComponents() {
 }
 
 
-export default RoomsComponent;

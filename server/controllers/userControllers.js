@@ -41,38 +41,36 @@ exports.registerNewUser = async (req, res) => {
  
 }
   if(password < 10){
-      res.status(400).json({ message: "Please provide a password longer than 10 characters" });
+    res.status(400).json({ message: "Please provide a password longer than 10 characters" });
       //This is data validation telling user to create a valid password
 }
-     const newUser = await user.save();//saves the user object to database
-      res.status(201).json(newUser);//sends a status of 201 determining it worked
-  } catch (error) {
+   const newUser = await user.save();//saves the user object to database
+   res.status(201).json(newUser);//sends a status of 201 determining it worked
+}  catch (error) {
       console.log(error);
       res.status(400).json({ message: error.message });
-  }//incase user fails to create
-  };
+}//incase user fails to create
+};
 
 exports.loginUser = async (req, res) => { //find the users through their email rather than username, because username doesnt exist
   try{
-    const user = await User.findOne({ email: req.body.email });//finds the user object in database
-    if (!user) {//if user doesnt exist then send error status/message
-      
-      console.log("User Not found"); // Logging for debug
-   res.status(401).json({ message: "Invalid credentials" });
-  }  
+  const user = await User.findOne({ email: req.body.email });//finds the user object in database
+  if (!user) {//if user doesnt exist then send error status/message
+   throw new Error('invalid credentials');
+}
   const passwordMatch = bcrypt.compare(req.body.password, user.password)
   if(passwordMatch){
-    const accessToken = jwt.sign({ email: user.email }, 
-      process.env.JWT_SECRET, { expiresIn: '1h'});
+  const accessToken = jwt.sign({ email: user.email }, 
+    process.env.JWT_SECRET, { expiresIn: '1h'});
       //grants authentication if login goes smoothly
-    res.status(200).json({ message: "Login successful", token: accessToken });//good status 
-  } else {
-      console.log("Password does not match"); // Logging for debug
-        res.status(401).json({ message: "Invalid credentials" });
-        }//more data validation 
-      }catch (error) {
-      console.error("Error during login", error); // More detailed error logging
-      res.status(500).json({ message: "Server error during login" }); //change to throw a error instead of res.status
+  res.status(200).json({ message: "Login successful", token: accessToken });//good status 
+} else {
+  console.log("Password does not match"); // Logging for debug
+  res.status(401).json({ message: "Invalid credentials" });
+}//more data validation 
+  }catch (error) {
+  console.error("Error during login", error); // More detailed error logging
+  res.status(500).json({ message: "Server error during login" }); //change to throw a error instead of res.status
   }
 }
 

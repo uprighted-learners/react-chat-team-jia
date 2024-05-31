@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import '../components/Navigation.css'
+import { Link } from 'react-router-dom'//Link import that allows our navigation bar to work, like a href
+
 export default function Home() {
-  return (
+  return (//these React elements allows good accessibility from many different angels
     <div className='navbar'>
       <ul>
         <li><Link to='/'>Home</Link></li>

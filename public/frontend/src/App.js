@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Rooms from './components/Rooms.js';
 import Messages from './components/Messages.js';
-import Login from './Pages/Login.jsx';
-import RegisterForm from './Pages/RegisterForm.jsx';
+import Login from './components/Login.js';
+import RegisterForm from './components/RegisterForm.js';
 export default function App() {
   const [roomSelected, setRoomSelected] = useState('');
   function selectionFromChild(id) {
